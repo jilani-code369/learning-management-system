@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+  
+    
 ]
 
 MIDDLEWARE = [
@@ -72,12 +74,15 @@ WSGI_APPLICATION = 'project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
+
+#Postgres Integration:
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    "default" : { "ENGINE" : "django.db.backends.postgresql", "NAME":"lms2", "HOST":"localhost", "PORT":"5432", "USER":"jilani", "PASSWORD":"123"}
+    
 }
+
+
+
 
 
 # Password validation
@@ -115,3 +120,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+
+
+
+

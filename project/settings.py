@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'users',
   
     
 ]
@@ -122,5 +123,6 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 
-
+# Custom User: 
+AUTH_USER_MODEL = 'users.User'
 

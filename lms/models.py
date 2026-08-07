@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
-import uuid    # to generate random string for transaction id
+import uuid    # to generate random strings for transaction id
 
 # Create your models here.
 
@@ -33,13 +33,14 @@ class Course(models.Model):
 class Enrollment(models.Model):
     STATUS_CHOICES = (
         ("enrolled", "ENROLLED"),
+        ("running", "RUNNING"),
         ("completed", "COMPLETED"),
         ("dropped", "DROPPED")
     )
     student = models.ForeignKey(User, on_delete=models.PROTECT)
     course = models.ForeignKey(Course, on_delete=models.PROTECT)
     enrollment_status = models.CharField(max_length=50, choices = STATUS_CHOICES, default = "enrolled")
-    progress = models.IntegerField(blank=True, null =True)
+    progress = models.IntegerField(default = 0)
     enrolled_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
     
@@ -54,7 +55,7 @@ class Assignment(models.Model):
     title = models.CharField(max_length=50)
     description = models.TextField()
     total_marks = models.IntegerField()
-    deadline = models.DateTimeField()        # the deadline will be manually set by the instructor
+    deadline = models.DateField()        # the deadline will be manually set by the instructor
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
         
@@ -95,7 +96,7 @@ class Sponsorship(models.Model):
     sponsored_course = models.ForeignKey(Course, on_delete=models.PROTECT)
     amount = models.DecimalField(max_digits = 10, decimal_places = 2)
     sponsorship_status = models.CharField(max_length=20, choices=SPONSORSHIP_STATUS, default="pending")
-    funded_at = models.DateTimeField(null=True, blank=True)     # this will be the date when funding is approved not when the sponsorship table is created. User will manually enter it.
+    funded_at = models.DateField(null=True, blank=True)     # this will be the date when funding is approved not when the sponsorship table is created. User will manually enter it.
     updated_at = models.DateTimeField(auto_now = True)
           
 
@@ -131,12 +132,14 @@ class Notification(models.Model):
         ("warning", "WARNING"),
         ("system", "SYSTEM")
     )
-    message = models.TextField()
+    title = models.CharField(max_length=50)
+    description = models.TextField()
     sender = models.ForeignKey(User, on_delete= models.CASCADE, related_name="sent_notifications")
     receiver = models.ForeignKey(User, on_delete= models.CASCADE, related_name = 'received_notifications')
     notification_type = models.CharField(max_length=20, choices = NOTIFICATION_TYPES, default = "informative")
     is_read= models.BooleanField(default=False)
     sent_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now = True)
     
     
     

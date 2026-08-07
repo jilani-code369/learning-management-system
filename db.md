@@ -70,7 +70,7 @@
 - answer_text
 - file
 
-## written by instructor only, student can readonly: 
+## writable by instructor only, student can read only: 
 - marks_obtained
 - status
 
@@ -91,7 +91,17 @@
 - updated_at
 
 
-# 7. Notification
+# 7. Payment
+- id (PK)
+- payer (FK → User)
+- amount
+- payment_method
+- transaction_id
+- payment_date
+- status
+
+
+# 8. Notification
 - id (PK)
 - sender (FK → User)
 - receiver (FK → User)
@@ -105,27 +115,23 @@
 
 # Relationships
 
-## One-to-One: 
-- User(Student)            - Sponsorship (1:1)
+## One-to-One:
+- Student (User)       <->    Sponsorship (1:1 via OneToOneField)
 
-## One-to-Many: 
-- User (Instructor)        -> Course (1:M)
-- User (Student)           -> Enrollment (1:M)
-- User (Student)           -> Submission (1:M)
-- User (Sponsor)           -> Sponsorship (1:M)
-- User (Sponsor/Student)   -> Payment (1:M)
-- User (Sender)            -> Notification (1:M)
-- User (Receiver)          -> Notification (1:M)
-- User (Sender)            -> Email_log (1:M)
-- User (Receiver)          -> Email_log (1:M)
-- Course                   -> Enrollment (1:M)
-- Course                   -> Assignment (1:M)
-- Course                   -> Sponsorship (1:M)
-- Assignment               -> Submission (1:M)
+## One-to-Many:
+- Instructor (User)    ->    Course (1:M)
+- Student (User)       ->    Enrollment (1:M)
+- Course               ->    Enrollment (1:M)
+- Course               ->    Assignment (1:M)
+- Assignment           ->    Submission (1:M)
+- Student (User)       ->    Submission (1:M)
+- Sponsor (User)       ->    Sponsorship (1:M)
+- Course               ->    Sponsorship (1:M)
+- Payer (User)         ->    Payment (1:M)
+- Sender (User)        ->    Notification (1:M)
+- Receiver (User)      ->    Notification (1:M)
 
-## Many-to-Many: 
-- Student                 <-> Course (M:M)
-- Student                 <-> Assignment (M:M)
-- Sponsor                 <-> Course (M:M)
-- Sender (User)           <-> Receiver (User) (M:M) - Notification 
-- Sender (User)           <-> Receiver (User) (M:M) - Email_log
+## Many-to-Many (through intermediate models):
+- Student             <->    Course (via Enrollment)
+- Student             <->    Assignment (via Submission)
+

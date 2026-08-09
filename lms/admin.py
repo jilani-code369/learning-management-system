@@ -5,6 +5,15 @@ from .models import *
 
 # Register your models here.
 
+@admin.register(Category)
+class CategoryAdmin(ModelAdmin):
+    list_display = ["id", "name"]
+    list_editable = []
+    list_display_links = ["id", "name"]
+    list_filter= []
+    list_per_page = 10
+    search_fields = ["name"]
+
 @admin.register(Course)
 class CourseAdmin(ModelAdmin):
     list_display = ["id", "title", "description", "instructor", "price", "syllabus", "difficulty_level"]

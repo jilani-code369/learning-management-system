@@ -83,5 +83,3 @@ class NotificationAdmin(ModelAdmin):
     
     
 
-    
-    

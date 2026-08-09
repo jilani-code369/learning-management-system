@@ -23,8 +23,11 @@
 - dob
 - gender
 
+# 2. Category
+- id (PK)
+- name
 
-# 2. Course
+# 3. Course
 - id (PK)
 - instructor (FK → User)
 - course_image
@@ -38,7 +41,7 @@
 - updated_at
 
 
-# 3. Enrollment
+# 4. Enrollment
 - id (PK)
 - student (FK → User)
 - course (FK → Course)
@@ -49,7 +52,7 @@
 - updated_at
 
 
-# 4. Assignment
+# 5. Assignment
 - id (PK)
 - course (FK → Course)
 - title
@@ -61,7 +64,7 @@
 - updated_at
 
 
-# 5. Submission
+# 6. Submission
 
 ## writtable by student: 
 - id (PK)
@@ -78,7 +81,7 @@
 - updated_at
 
 
-# 6. Sponsorship
+# 7. Sponsorship
 - id (PK)
 - sponsor (FK → User)
 - organization_name
@@ -91,7 +94,7 @@
 - updated_at
 
 
-# 7. Payment
+# 8. Payment
 - id (PK)
 - payer (FK → User)
 - amount
@@ -101,7 +104,7 @@
 - status
 
 
-# 8. Notification
+# 9. Notification
 - id (PK)
 - sender (FK → User)
 - receiver (FK → User)
@@ -121,6 +124,7 @@
 ## One-to-Many:
 - Instructor (User)    ->    Course (1:M)
 - Student (User)       ->    Enrollment (1:M)
+- Category             ->    Course (1:M)
 - Course               ->    Enrollment (1:M)
 - Course               ->    Assignment (1:M)
 - Assignment           ->    Submission (1:M)

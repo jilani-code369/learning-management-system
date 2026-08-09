@@ -8,8 +8,12 @@ import uuid    # to generate random strings for transaction id
 # 1. User Model
 User = get_user_model()
 
+# 2. Category
+class Category(models.Model):
+    name = models.CharField(max_length=50)
 
-# 2. Course
+
+# 3. Course
 class Course(models.Model):
     DIFFICULTY_CHOICES = (
         ("beginner", "BEGINNER"),
@@ -19,6 +23,7 @@ class Course(models.Model):
 
     title = models.CharField(max_length=50, unique=True)
     description = models.TextField(blank=True, null =True)
+    Category = models.ForeignKey(Category, on_delete=models.SET_NULL, null = True, blank = True)
     instructor = models.ForeignKey(User, on_delete=models.SET_NULL, null = True)
     price = models.DecimalField(max_digits=10, decimal_places = 2)
     syllabus = models.TextField(blank=True, null =True)
@@ -29,7 +34,7 @@ class Course(models.Model):
 
 
 
-# 3. Enrollment
+# 4. Enrollment
 class Enrollment(models.Model):
     STATUS_CHOICES = (
         ("enrolled", "ENROLLED"),
@@ -49,7 +54,7 @@ class Enrollment(models.Model):
         unique_together = ("student", "course")
 
 
-# 4. Assignment
+# 5. Assignment
 class Assignment(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     title = models.CharField(max_length=50)
@@ -61,7 +66,7 @@ class Assignment(models.Model):
         
 
 
-# 5. Submission
+# 6. Submission
 class Submission(models.Model):
     SUBMISSION_STATUS = (
         ("pending", "PENDING"), 
@@ -83,7 +88,7 @@ class Submission(models.Model):
         
     
 
-# 6. Sponsorship
+# 7. Sponsorship
 class Sponsorship(models.Model):
     SPONSORSHIP_STATUS = (
         ("pending", "PENDING"),
@@ -100,7 +105,7 @@ class Sponsorship(models.Model):
     updated_at = models.DateTimeField(auto_now = True)
           
 
-# 7. Payment
+# 8. Payment
 class Payment(models.Model):
     PAYMENT_METHOD=(
         ("cash", "CASH"),
@@ -125,7 +130,7 @@ class Payment(models.Model):
            
 
 
-# 8. Notification
+# 9. Notification
 class Notification(models.Model):
     NOTIFICATION_TYPES = (
         ("informative", "INFORMATIVE"), 

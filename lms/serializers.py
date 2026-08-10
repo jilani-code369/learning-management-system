@@ -1,11 +1,15 @@
 
 from rest_framework.serializers import ModelSerializer
+from django.contrib.auth import get_user_model 
 
 from .models import *
 
 
-# CategorySerializer: 
+# Getting the active user of the project
+User = get_user_model()
 
+
+# Category Serializer: 
 class CategorySerializer(ModelSerializer):
     class Meta:
         model = Category 
@@ -13,8 +17,7 @@ class CategorySerializer(ModelSerializer):
 
 
 
-# CourseSerializer: 
-
+# Course Serializer: 
 class CourseSerializer(ModelSerializer):
     class Meta:
         model = Course 
@@ -22,8 +25,7 @@ class CourseSerializer(ModelSerializer):
 
 
 
-# EnrollmentSerializer: 
-
+# Enrollment Serializer: 
 class EnrollmentSerializer(ModelSerializer):
     class Meta:
         model = Enrollment 
@@ -31,9 +33,7 @@ class EnrollmentSerializer(ModelSerializer):
 
 
 
-
-# AssignmentSerializer: 
-
+# Assignment Serializer: 
 class AssignmentSerializer(ModelSerializer):
     class Meta:
         model = Assignment 
@@ -42,8 +42,7 @@ class AssignmentSerializer(ModelSerializer):
 
 
 
-# SubmissionSerializer: 
-
+# Submission Serializer: 
 class SubmissionSerializer(ModelSerializer):
     class Meta:
         model = Submission 
@@ -51,9 +50,7 @@ class SubmissionSerializer(ModelSerializer):
 
 
 
-
-# SponsorshipSerializer: 
-
+# Sponsorship Serializer: 
 class SponsorshipSerializer(ModelSerializer):
     class Meta:
         model = Sponsorship 
@@ -61,8 +58,7 @@ class SponsorshipSerializer(ModelSerializer):
 
 
 
-# PaymentSerializer: 
-
+# Payment Serializer: 
 class PaymentSerializer(ModelSerializer):
     class Meta:
         model = Payment 
@@ -70,11 +66,17 @@ class PaymentSerializer(ModelSerializer):
 
 
 
-# NotificationSerializer: 
-
+# Notification Serializer: 
 class NotificationSerializer(ModelSerializer):
     class Meta:
         model = Notification 
         fields = '__all__'
 
+
+
+# User Serializer: 
+class UserSerializer(ModelSerializer):
+    class Meta:
+        model = User 
+        fields = '__all__'
 

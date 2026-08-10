@@ -19,7 +19,7 @@ class CourseAPI(ModelViewSet):
     serializer_class = CourseSerializer
     
     
-#  EnrollmentAPI: 
+#  Enrollment API: 
 class EnrollmentAPI(ModelViewSet):
     queryset = Enrollment.objects.all()
     serializer_class = EnrollmentSerializer
@@ -59,7 +59,8 @@ class NotificationAPI(ModelViewSet):
     serializer_class = NotificationSerializer
     
     
-
-
-    
+# User API: 
+class UserAPI(ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
     

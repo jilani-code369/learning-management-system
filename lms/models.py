@@ -97,8 +97,8 @@ class Sponsorship(models.Model):
     )
     sponsor = models.ForeignKey(User, on_delete=models.PROTECT, related_name='sponsorship_given')             # related_name is used bec there is two field pointing to the same FK model
     organization_name = models.CharField(max_length=100)
-    sponsored_student = models.OneToOneField(User, on_delete=models.PROTECT, related_name='sponsorship_received')    # One-to-One Field is used to avoid giving sponsorship to same student twice
-    sponsored_course = models.ForeignKey(Course, on_delete=models.PROTECT)
+    student = models.OneToOneField(User, on_delete=models.PROTECT, related_name='sponsorship_received')    # One-to-One Field is used to avoid giving sponsorship to same student twice
+    course = models.ForeignKey(Course, on_delete=models.PROTECT)
     amount = models.DecimalField(max_digits = 10, decimal_places = 2)
     sponsorship_status = models.CharField(max_length=20, choices=SPONSORSHIP_STATUS, default="pending")
     funded_at = models.DateField(null=True, blank=True)     # this will be the date when funding is approved not when the sponsorship table is created. User will manually enter it.
@@ -118,8 +118,8 @@ class Payment(models.Model):
         ("failed", "FAILED")
     )
     
-    course = models.ForeignKey(Course, on_delete=models.PROTECT)           # it says, which course you are paying for
-    payer = models.ForeignKey(User, on_delete=models.PROTECT)
+    course = models.ForeignKey(Course, on_delete=models.SET_NULL, null = True)           # it says, which course you are paying for
+    payer = models.ForeignKey(User, on_delete=models.SET_NULL, null = True)
     amount = models.DecimalField(max_digits = 10, decimal_places = 2)
     payment_method = models.CharField(max_length=20, choices = PAYMENT_METHOD, default = "cash")
     payment_status = models.CharField(max_length=20, choices = PAYMENT_STATUS, default="pending")

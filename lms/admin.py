@@ -60,7 +60,7 @@ class SubmissionAdmin(ModelAdmin):
 
 @admin.register(Sponsorship)
 class SponsorshipAdmin(ModelAdmin):
-    list_display = ["id", "sponsor", "organization_name", "sponsored_student", "sponsored_course", "amount", "sponsorship_status", "funded_at"]
+    list_display = ["id", "sponsor", "organization_name", "student", "course", "amount", "sponsorship_status", "funded_at"]
     list_editable = ["amount", "sponsorship_status"]
     list_display_links = ["id", "sponsor"]
     list_filter= ["sponsorship_status"]

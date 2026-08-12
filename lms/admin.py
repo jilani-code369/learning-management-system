@@ -5,6 +5,8 @@ from .models import *
 
 # Register your models here.
 
+
+# Category Admin
 @admin.register(Category)
 class CategoryAdmin(ModelAdmin):
     list_display = ["id", "name"]
@@ -14,6 +16,8 @@ class CategoryAdmin(ModelAdmin):
     list_per_page = 10
     search_fields = ["name"]
 
+
+# Course Admin
 @admin.register(Course)
 class CourseAdmin(ModelAdmin):
     list_display = ["id", "title", "description", "instructor", "price", "syllabus", "difficulty_level"]
@@ -24,6 +28,7 @@ class CourseAdmin(ModelAdmin):
     search_fields = ["title"]
 
 
+# Enrollment Admin
 @admin.register(Enrollment)
 class EnrollmentAdmin(ModelAdmin):
     list_display = ["id", "course", "student", "enrollment_status", "progress", "enrolled_at"]
@@ -35,6 +40,7 @@ class EnrollmentAdmin(ModelAdmin):
 
 
 
+# Assignment Admin
 @admin.register(Assignment)
 class AssignmentAdmin(ModelAdmin):
     list_display = ["id", "course", "title", "description", "total_marks", "deadline"]
@@ -45,8 +51,8 @@ class AssignmentAdmin(ModelAdmin):
     search_fields = ["course__title", "title"]
     
     
-    
 
+# Submission Admin
 @admin.register(Submission)
 class SubmissionAdmin(ModelAdmin):
     list_display = ["id", "assignment", "student", "answer_file", "answer_text", "submission_status", "marks_obtained", "submitted_at"]
@@ -58,6 +64,7 @@ class SubmissionAdmin(ModelAdmin):
 
 
 
+# Sponsorship Admin
 @admin.register(Sponsorship)
 class SponsorshipAdmin(ModelAdmin):
     list_display = ["id", "sponsor", "organization_name", "student", "course", "amount", "sponsorship_status", "funded_at"]
@@ -69,6 +76,7 @@ class SponsorshipAdmin(ModelAdmin):
 
 
 
+# Payment Admin
 @admin.register(Payment)
 class PaymentAdmin(ModelAdmin):
     list_display = ["id", "course", "payer", "amount", "payment_method", "payment_status", "transaction_id", "payment_date"]
@@ -79,7 +87,7 @@ class PaymentAdmin(ModelAdmin):
     search_fields = ["payer__username", "course__title"]
 
 
-
+# Notification Admin
 @admin.register(Notification)
 class NotificationAdmin(ModelAdmin):
     list_display = ["id", "title", "description", "sender", "receiver", "notification_type", "is_read", "sent_at"]

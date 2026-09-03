@@ -2,12 +2,15 @@ from django.shortcuts import render
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.filters import SearchFilter, OrderingFilter
+from django_filters.rest_framework import DjangoFilterBackend
 
 from .pagination import *
 from .models import *
 from .serializers import *
 
 # Create your views here.
+
 
 
 # Category API: 
@@ -18,6 +21,13 @@ class CategoryAPI(ModelViewSet):
     #Pagination
     pagination_class = PaginationOf10               # Using custom pagination
     
+    #Filter
+    filter_backends = [SearchFilter, OrderingFilter]
+    search_fields = ['name']
+    ordering_fields = ['id', 'name']
+    
+    
+    
     
 # Course API: 
 class CourseAPI(ModelViewSet):
@@ -26,6 +36,12 @@ class CourseAPI(ModelViewSet):
     
     #Pagination
     pagination_class = PaginationOf20  
+    
+    #Filter
+    filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
+    search_fields = ['title']
+    filterset_fields = ['category', 'instructor', 'difficulty_level']
+    ordering_fields = ['id', 'price']
     
     # Overiding destroy method to handle protected relationship with course
     def destroy(self, request, *args, **kwargs):
@@ -39,6 +55,8 @@ class CourseAPI(ModelViewSet):
         return Response({"detail":"Course deleted successfully."})
     
     
+    
+    
 #  Enrollment API: 
 class EnrollmentAPI(ModelViewSet):
     queryset = Enrollment.objects.all()
@@ -46,6 +64,12 @@ class EnrollmentAPI(ModelViewSet):
     
     #Pagination
     pagination_class = PaginationOf20  
+    
+    #Filter
+    filter_backends = [DjangoFilterBackend, OrderingFilter]
+    filterset_fields = ['student', 'course', 'enrollment_status']
+    ordering_fields = ['id', 'progress']
+    
     
     
     
@@ -57,6 +81,14 @@ class AssignmentAPI(ModelViewSet):
     #Pagination
     pagination_class = PaginationOf30
     
+    #Filtering
+    filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
+    search_fields = ['title']
+    filterset_fields = ['course']
+    ordering_fields = ['id', 'total_marks']
+
+    
+    
     
 # Submission API: 
 class SubmissionAPI(ModelViewSet):
@@ -65,6 +97,13 @@ class SubmissionAPI(ModelViewSet):
     
     #Pagination
     pagination_class = PaginationOf30  
+    
+    #Filter
+    filter_backends = [DjangoFilterBackend, OrderingFilter]
+    filterset_fields = ['assignment', 'student', 'submission_status']
+    ordering_fields = ['id', 'marks_obtained']
+
+    
     
     
 # Sponsorship API: 
@@ -75,6 +114,13 @@ class SponsorshipAPI(ModelViewSet):
     #Pagination
     pagination_class = PaginationOf10  
     
+    #Filter
+    filter_backends = [DjangoFilterBackend, OrderingFilter]
+    filterset_fields = ['sponsor', 'student', 'course', 'sponsorship_status']
+    ordering_fields = ['id', 'amount']
+    
+    
+    
 
 # Payment API: 
 class PaymentAPI(ModelViewSet):
@@ -83,6 +129,14 @@ class PaymentAPI(ModelViewSet):
     
     #Pagination
     pagination_class = PaginationOf10  
+    
+    #Filter
+    filter_backends = [DjangoFilterBackend, OrderingFilter]
+    filterset_fields = ['course', 'payer', 'payment_status']
+    ordering_fields = ['id', 'amount']
+    
+    
+    
 
 # Notification API: 
 class NotificationAPI(ModelViewSet):
@@ -92,14 +146,29 @@ class NotificationAPI(ModelViewSet):
     #Pagination
     pagination_class = PaginationOf30  
     
+    #Filter
+    filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
+    filterset_fields = ['sender', 'notification_type', 'is_read']
+    search_fields = ['title']
+    ordering_fields = ['id', 'sent_at']
     
+    
+    
+       
 # User API: 
 class UserAPI(ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     
     #Pagination
-    pagination_class = PaginationOf30  
+    pagination_class = PaginationOf30 
+    
+    #Filter
+    filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
+    search_fields = ['username', 'first_name', 'last_name', 'email']
+    filterset_fields = ['is_superuser', 'is_active', 'is_staff']
+    ordering_fields = ['id', 'username', 'dob'] 
+    
 
     # Overiding destroy method to handle protected relationships 
     def destroy(self, request, *args, **kwargs):

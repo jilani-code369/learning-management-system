@@ -8,6 +8,8 @@ from django_filters.rest_framework import DjangoFilterBackend
 from .pagination import *
 from .models import *
 from .serializers import *
+from .filters import *
+
 
 # Create your views here.
 
@@ -38,10 +40,10 @@ class CourseAPI(ModelViewSet):
     pagination_class = PaginationOf20  
     
     #Filter
-    filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
-    search_fields = ['title']
-    filterset_fields = ['category', 'instructor', 'difficulty_level']
+    filter_backends = [DjangoFilterBackend, OrderingFilter]
+    filterset_class = CourseFilter                                                  # Using custom filter to have 'less than' and 'greater than' feature for 'price' field
     ordering_fields = ['id', 'price']
+    
     
     # Overiding destroy method to handle protected relationship with course
     def destroy(self, request, *args, **kwargs):
@@ -67,7 +69,7 @@ class EnrollmentAPI(ModelViewSet):
     
     #Filter
     filter_backends = [DjangoFilterBackend, OrderingFilter]
-    filterset_fields = ['student', 'course', 'enrollment_status']
+    filterset_class = EnrollmentFilter                                  # Using custom filter to implement 'less than' and 'greater than' feature for 'progress' field
     ordering_fields = ['id', 'progress']
     
     
@@ -82,9 +84,8 @@ class AssignmentAPI(ModelViewSet):
     pagination_class = PaginationOf30
     
     #Filtering
-    filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
-    search_fields = ['title']
-    filterset_fields = ['course']
+    filter_backends = [DjangoFilterBackend, OrderingFilter]
+    filterset_class = AssignmentFilter                                          # Using custom filter to have 'less than' and 'greater than' feature for 'total_marks' and 'deadline' field
     ordering_fields = ['id', 'total_marks']
 
     
@@ -100,7 +101,7 @@ class SubmissionAPI(ModelViewSet):
     
     #Filter
     filter_backends = [DjangoFilterBackend, OrderingFilter]
-    filterset_fields = ['assignment', 'student', 'submission_status']
+    filterset_class = SubmissionFilter                                              # Using custom filter to have 'less than' and 'greater than' feature for 'marks_obtained' field
     ordering_fields = ['id', 'marks_obtained']
 
     
@@ -116,7 +117,7 @@ class SponsorshipAPI(ModelViewSet):
     
     #Filter
     filter_backends = [DjangoFilterBackend, OrderingFilter]
-    filterset_fields = ['sponsor', 'student', 'course', 'sponsorship_status']
+    filterset_class = SponsorshipFilter                                        # Using custom filter to have 'less than' and 'greater than' feature for 'amount' field
     ordering_fields = ['id', 'amount']
     
     
@@ -148,8 +149,8 @@ class NotificationAPI(ModelViewSet):
     
     #Filter
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
-    filterset_fields = ['sender', 'notification_type', 'is_read']
     search_fields = ['title']
+    filterset_fields = ['sender', 'notification_type', 'is_read']
     ordering_fields = ['id', 'sent_at']
     
     
@@ -165,8 +166,7 @@ class UserAPI(ModelViewSet):
     
     #Filter
     filter_backends = [SearchFilter, DjangoFilterBackend, OrderingFilter]
-    search_fields = ['username', 'first_name', 'last_name', 'email']
-    filterset_fields = ['is_superuser', 'is_active', 'is_staff']
+    filterset_class = UserFilter                                                                        # Using custom filter to have 'less than' and 'greater than' feature for 'dob' field
     ordering_fields = ['id', 'username', 'dob'] 
     
 
@@ -182,3 +182,6 @@ class UserAPI(ModelViewSet):
                 
         user.delete()
         return Response({"detail":"User deleted successfully!"}, status = status.HTTP_204_NO_CONTENT)
+    
+    
+    
